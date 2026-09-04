@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Janmashtami Surprise 💙</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh;overflow:hidden;background:radial-gradient(circle at 50% 20%,#293b9b,#10153e 55%,#060817);color:#fff}
+canvas{position:fixed;inset:0;pointer-events:none}
+.wrap{position:relative;z-index:2;min-height:100vh;display:grid;place-items:center;padding:20px}
+.card{width:min(430px,94vw);padding:30px 24px;border:1px solid #ffffff33;border-radius:28px;background:#ffffff12;backdrop-filter:blur(14px);box-shadow:0 20px 70px #0008;text-align:center}
+.peacock{font-size:54px;filter:drop-shadow(0 5px 10px #0005);animation:float 2.8s ease-in-out infinite}
+h1{margin:8px 0 10px;font-size:30px}
+p{color:#e8eaff}
+input{width:100%;padding:15px;margin:8px 0;border:1px solid #ffffff30;border-radius:14px;background:#0003;color:#fff;outline:none;font-size:16px}
+input::placeholder{color:#ffffff99}
+button{width:100%;padding:15px;border:0;border-radius:14px;margin-top:10px;background:linear-gradient(135deg,#ffd76a,#ff9d2e);color:#321900;font-weight:800;font-size:16px;cursor:pointer}
+button:active{transform:scale(.98)}
+#error{height:22px;color:#ffb5b5;font-size:14px}
+.hidden{display:none}
+.heart{font-size:42px;animation:pulse 1.2s infinite}
+.name{font-size:35px;font-weight:900;background:linear-gradient(90deg,#ffe58a,#fff,#7ed9ff,#ffe58a);background-size:300%;-webkit-background-clip:text;color:transparent;animation:shine 4s linear infinite}
+.message{line-height:1.7;font-size:17px}
+.small{font-size:13px;color:#cdd2ff}
+@keyframes float{50%{transform:translateY(-9px)}}
+@keyframes pulse{50%{transform:scale(1.12)}}
+@keyframes shine{to{background-position:300%}}
+@media(max-width:420px){h1{font-size:27px}.name{font-size:30px}}
+</style>
+</head>
+<body>
+<canvas id="fx"></canvas>
+<div class="wrap">
+  <section class="card" id="login">
+    <div class="peacock">🦚</div>
+    <h1>एक छोटा सा Surprise 💙</h1>
+    <p>पहले अपना नाम और secret password डालो ✨</p>
+    <input id="nameInput" placeholder="Login ID" autocomplete="off">
+    <input id="passInput" type="password" placeholder="Password" autocomplete="off">
+    <div id="error"></div>
+    <button onclick="openSurprise()">💙 Login & Surprise खोलो</button>
+    
+  </section>
+
+  <section class="card hidden" id="surprise">
+    <div class="peacock">🦚 🪈</div>
+    <div class="heart">💙</div>
+    <h1>✨ Happy Krishna Janmashtami ✨</h1>
+    <div class="name" id="showName">cute pariii123 🥰</div>
+    <p class="message">💙✨</p>
+    <button onclick="moreLove()">🎁 Surprise</button>
+    <p id="extra" class="small"></p>
+  </section>
+</div>
+
+<script>
+const c=document.getElementById('fx'),x=c.getContext('2d');let W,H,parts=[];
+function resize(){W=c.width=innerWidth*devicePixelRatio;H=c.height=innerHeight*devicePixelRatio;x.scale(devicePixelRatio,devicePixelRatio);W=innerWidth;H=innerHeight}
+addEventListener('resize',resize);resize();
+const symbols=['✨','🌸','🪔','💙','🦚'];
+function burst(){
+  parts=[];
+  for(let i=0;i<90;i++) parts.push({x:innerWidth/2,y:innerHeight*.25,vx:(Math.random()-.5)*7,vy:(Math.random()-.8)*7,g:.08,s:symbols[i%symbols.length],a:1,r:Math.random()*2});
+}
+function animate(){
+ x.clearRect(0,0,innerWidth,innerHeight);
+ parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=p.g;p.a-=.006;x.globalAlpha=Math.max(0,p.a);x.font=(14+p.r*8)+'px serif';x.fillText(p.s,p.x,p.y)});
+ requestAnimationFrame(animate)
+}animate();
+
+function openSurprise(){
+ const n=document.getElementById('nameInput').value.trim();
+ const p=document.getElementById('passInput').value;
+ const e=document.getElementById('error');
+ if(!n){e.textContent='Login ID डालो 😊';return}
+ if(n!=='cute parii' || p!=='cute parii'){e.textContent='Login ID या Password गलत है 😜';return}
+ document.getElementById('showName').textContent='cute pariii123 🥰';
+ document.getElementById('login').classList.add('hidden');
+ document.getElementById('surprise').classList.remove('hidden');
+ burst();
+}
+function moreLove(){
+ document.getElementById('extra').textContent='Thank You ❤️';
+ burst();
+}
+</script>
+</body>
+</html>
